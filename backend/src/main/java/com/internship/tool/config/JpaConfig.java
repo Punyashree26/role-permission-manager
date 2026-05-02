@@ -1,4 +1,4 @@
-package main.java.com.internship.tool.config;
+package com.internship.tool.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;

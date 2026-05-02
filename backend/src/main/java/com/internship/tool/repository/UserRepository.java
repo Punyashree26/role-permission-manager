@@ -1,4 +1,4 @@
-package main.java.com.internship.tool.repository;
+package com.internship.tool.repository;
 
 import com.internship.tool.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;

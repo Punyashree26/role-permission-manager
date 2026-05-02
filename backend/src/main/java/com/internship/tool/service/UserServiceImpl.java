@@ -6,6 +6,8 @@ import com.internship.tool.exception.ResourceNotFoundException;
 import com.internship.tool.exception.InvalidInputException;
 
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -39,10 +41,12 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
     }
 
-    @Override
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
-    }
+  
+    
+@Override
+public Page<User> getAllUsers(Pageable pageable) {
+    return userRepository.findAll(pageable);
+}
 
     @Override
     public User updateUser(Long id, User user) {

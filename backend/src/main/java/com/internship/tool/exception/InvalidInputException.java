@@ -1,4 +1,4 @@
-package main.java.com.internship.tool.exception;
+package com.internship.tool.exception;
 
 public class InvalidInputException extends RuntimeException {
 

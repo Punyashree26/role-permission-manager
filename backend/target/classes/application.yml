@@ -43,14 +43,25 @@ spring:
       ddl-auto: update
     show-sql: true
 
-jwt:
-  secret: mySuperSecretKey123
-  expiration: 3600
-
-  spring:
   redis:
     host: localhost
     port: 6379
 
   cache:
     type: redis
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: preetiiti19@gmail.com
+    password: uoaz kzxd tvha xsod
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+jwt:
+  secret: mySuperSecretKey123
+  expiration: 3600

@@ -1,4 +1,6 @@
 
+
+
 package com.internship.tool.service;
 
 import com.internship.tool.entity.User;
@@ -10,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-// ✅ ADD THESE IMPORTS
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.CacheEvict;
 
@@ -24,11 +25,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    // ✅ ADD THIS
     @CacheEvict(value = {"users", "usersList"}, allEntries = true)
     public User createUser(User user) {
 
-        // 🔹 Validation
         if (user.getEmail() == null || user.getEmail().isEmpty()) {
             throw new InvalidInputException("Email cannot be empty");
         }
@@ -41,22 +40,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    // ✅ ADD THIS
-    @Cacheable(value = "users", key = "#id")
+    @Cacheable(value = "users", key = "#id", unless = "#result == null")
     public User getUserById(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
     }
 
     @Override
-    // ✅ ADD THIS
-    @Cacheable(value = "usersList", key = "#pageable.pageNumber")
+    @Cacheable(value = "usersList", key = "#pageable.pageNumber + '-' + #pageable.pageSize")
     public Page<User> getAllUsers(Pageable pageable) {
         return userRepository.findAll(pageable);
     }
 
     @Override
-    // ✅ ADD THIS
     @CacheEvict(value = {"users", "usersList"}, allEntries = true)
     public User updateUser(Long id, User user) {
 
@@ -71,7 +67,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    // ✅ ADD THIS
     @CacheEvict(value = {"users", "usersList"}, allEntries = true)
     public void deleteUser(Long id) {
 

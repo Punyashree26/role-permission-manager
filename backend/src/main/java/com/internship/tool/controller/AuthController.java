@@ -3,6 +3,8 @@ package com.internship.tool.controller;
 import com.internship.tool.entity.User;
 import com.internship.tool.repository.UserRepository;
 import com.internship.tool.config.JwtUtil;
+import com.internship.tool.exception.ResourceNotFoundException;
+import com.internship.tool.exception.InvalidInputException;
 
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
@@ -25,15 +27,19 @@ public class AuthController {
         return ResponseEntity.ok(userRepository.save(user));
     }
 
-    // ✅ LOGIN
+    // ✅ LOGIN (FIXED)
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody User user) {
 
+        if (user.getEmail() == null || user.getEmail().isEmpty()) {
+            throw new InvalidInputException("Email is required");
+        }
+
         User existing = userRepository.findByEmail(user.getEmail())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         if (!existing.getPassword().equals(user.getPassword())) {
-            throw new RuntimeException("Invalid password");
+            throw new InvalidInputException("Invalid password");
         }
 
         String token = jwtUtil.generateToken(existing.getEmail());
@@ -41,9 +47,13 @@ public class AuthController {
         return ResponseEntity.ok(token);
     }
 
-    // ✅ REFRESH (basic version)
+    // ✅ REFRESH
     @GetMapping("/refresh")
     public ResponseEntity<String> refresh(@RequestHeader("Authorization") String header) {
+
+        if (header == null || !header.startsWith("Bearer ")) {
+            throw new InvalidInputException("Invalid token");
+        }
 
         String token = header.substring(7);
         String email = jwtUtil.extractEmail(token);
@@ -53,3 +63,59 @@ public class AuthController {
         return ResponseEntity.ok(newToken);
     }
 }
+
+// package com.internship.tool.controller;
+
+// import com.internship.tool.entity.User;
+// import com.internship.tool.repository.UserRepository;
+// import com.internship.tool.config.JwtUtil;
+
+// import org.springframework.web.bind.annotation.*;
+// import org.springframework.http.ResponseEntity;
+
+// @RestController
+// @RequestMapping("/auth")
+// public class AuthController {
+
+//     private final UserRepository userRepository;
+//     private final JwtUtil jwtUtil;
+
+//     public AuthController(UserRepository userRepository, JwtUtil jwtUtil) {
+//         this.userRepository = userRepository;
+//         this.jwtUtil = jwtUtil;
+//     }
+
+//     // ✅ REGISTER
+//     @PostMapping("/register")
+//     public ResponseEntity<User> register(@RequestBody User user) {
+//         return ResponseEntity.ok(userRepository.save(user));
+//     }
+
+//     // ✅ LOGIN
+//     @PostMapping("/login")
+//     public ResponseEntity<String> login(@RequestBody User user) {
+
+//         User existing = userRepository.findByEmail(user.getEmail())
+//                 .orElseThrow(() -> new RuntimeException("User not found"));
+
+//         if (!existing.getPassword().equals(user.getPassword())) {
+//             throw new RuntimeException("Invalid password");
+//         }
+
+//         String token = jwtUtil.generateToken(existing.getEmail());
+
+//         return ResponseEntity.ok(token);
+//     }
+
+//     // ✅ REFRESH (basic version)
+//     @GetMapping("/refresh")
+//     public ResponseEntity<String> refresh(@RequestHeader("Authorization") String header) {
+
+//         String token = header.substring(7);
+//         String email = jwtUtil.extractEmail(token);
+
+//         String newToken = jwtUtil.generateToken(email);
+
+//         return ResponseEntity.ok(newToken);
+//     }
+// }

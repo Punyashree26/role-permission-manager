@@ -1,7 +1,7 @@
-import ListPage from "./pages/ListPage";
+import ManageRoles from "./pages/ManageRoles";
 
 function App() {
-  return <ListPage />;
+  return <ManageRoles />;
 }
 
 export default App;

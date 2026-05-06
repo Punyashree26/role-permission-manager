@@ -1,7 +1,7 @@
-import ResponsiveDashboard from "./pages/ResponsiveDashboard";
+import FinalDashboard from "./pages/FinalDashboard";
 
 function App() {
-  return <ResponsiveDashboard />;
+  return <FinalDashboard />;
 }
 
 export default App;

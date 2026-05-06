@@ -1,7 +1,7 @@
-import Analytics from "./pages/Analytics";
+import ResponsiveDashboard from "./pages/ResponsiveDashboard";
 
 function App() {
-  return <Analytics />;
+  return <ResponsiveDashboard />;
 }
 
 export default App;

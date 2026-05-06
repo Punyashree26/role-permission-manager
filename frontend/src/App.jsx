@@ -1,7 +1,7 @@
-import Dashboard from "./pages/Dashboard";
+import SearchFilter from "./pages/SearchFilter";
 
 function App() {
-  return <Dashboard />;
+  return <SearchFilter />;
 }
 
 export default App;

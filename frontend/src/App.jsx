@@ -1,7 +1,7 @@
-import FileUploadExport from "./pages/FileUploadExport";
+import Analytics from "./pages/Analytics";
 
 function App() {
-  return <FileUploadExport />;
+  return <Analytics />;
 }
 
 export default App;

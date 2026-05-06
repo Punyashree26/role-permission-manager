@@ -1,7 +1,7 @@
-import AiPanel from "./pages/AiPanel";
+import FileUploadExport from "./pages/FileUploadExport";
 
 function App() {
-  return <AiPanel />;
+  return <FileUploadExport />;
 }
 
 export default App;

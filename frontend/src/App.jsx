@@ -1,7 +1,7 @@
-import SearchFilter from "./pages/SearchFilter";
+import AiPanel from "./pages/AiPanel";
 
 function App() {
-  return <SearchFilter />;
+  return <AiPanel />;
 }
 
 export default App;
